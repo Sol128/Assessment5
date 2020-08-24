@@ -27,4 +27,15 @@ public abstract class ServicioDobleVencimiento extends Servicio {
 
         super.evaluarPago();
     }
+
+    @Override
+    protected ArrayList<LocalDate> getVtos() {
+        ArrayList<LocalDate> listaVtos = new ArrayList<LocalDate>();
+
+        listaVtos.add(this.vto);
+        listaVtos.add(this.segundoVto);
+
+        return listaVtos;
+    }
+
 }

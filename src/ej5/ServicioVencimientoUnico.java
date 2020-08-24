@@ -19,7 +19,7 @@ public class ServicioVencimientoUnico extends Servicio {
 
         LocalDate hoy = LocalDate.now();
 
-        if (hoy.isAfter(this.vto)){
+        if (hoy.isAfter(this.vto)) {
             this.estado = Estado.VENCIDO;
         }
 
@@ -31,4 +31,16 @@ public class ServicioVencimientoUnico extends Servicio {
     protected Double getTotal() {
         return getMonto();
     }
+
+
+    @Override
+    protected ArrayList<LocalDate> getVtos() {
+        ArrayList<LocalDate> listaVtos = new ArrayList<LocalDate>();
+
+        listaVtos.add(this.vto);
+
+        return listaVtos;
+    }
 }
+
+

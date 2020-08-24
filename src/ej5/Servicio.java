@@ -2,6 +2,8 @@ package ej5;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 
 public abstract class Servicio {
     protected static Integer contador = new Integer(0);
@@ -56,7 +58,6 @@ public abstract class Servicio {
     //Devuelve el monto del servicio + el interes en caso de que tenga
     protected abstract Double getTotal();
 
-
     protected String getId(){
         return this.id;
     }
@@ -73,9 +74,7 @@ public abstract class Servicio {
         return montoPagado;
     }
 
-    protected LocalDate getVto() {
-        return vto;
-    }
+    protected abstract ArrayList<LocalDate> getVtos();
 
     protected Estado getEstado() {
         return estado;
@@ -128,4 +127,45 @@ public abstract class Servicio {
         }
     }
 
+
+    protected LocalDate getProxVto() throws ElServicioEstaVencidoOPagadoException {
+
+        LocalDate hoy = LocalDate.now();
+
+        if (hoy.isAfter(this.vto)) {
+            this.estado = Estado.VENCIDO;
+        }
+
+
+        if (this.estado.equals( Estado.ACTIVO)) {
+            ArrayList<LocalDate> vencimientos = new ArrayList<LocalDate>();
+
+            //agrego los vencimientos del servicio
+            for (LocalDate vtoDelServicio : this.getVtos()) {
+                vencimientos.add(vtoDelServicio);
+            }
+
+            //agrego los vencimientos de los servicios de los que depende
+
+            for (Servicio dependencia : this.dependencias) {
+                for (LocalDate vtoDependencia : dependencia.getVtos()) {
+                    vencimientos.add(vtoDependencia);
+                }
+            }
+
+            Collections.sort(vencimientos);
+
+            for (LocalDate vencimiento : vencimientos) {
+                if (hoy.isBefore(vencimiento)) {
+                    return vencimiento;
+                }
+            }
+
+            return hoy;
+
+        } else {
+
+            throw new ElServicioEstaVencidoOPagadoException();
+        }
+    }
 }
