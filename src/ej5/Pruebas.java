@@ -6,16 +6,19 @@ import java.util.ArrayList;
 public class Pruebas {
 
     public static void main(String[] args) {
-        ServicioVencimientoUnico unicoVto = new ServicioVencimientoUnico("1", new Double(5000), Moneda.EUR, LocalDate.parse("2020-12-12"));
+        ServicioVencimientoUnico unicoVto = new ServicioVencimientoUnico("1", new Double(5000), Moneda.EUR, LocalDate.parse("2020-11-12"));
 
         ArrayList<Servicio> lista = new ArrayList<Servicio>();
         lista.add(unicoVto);
 
-        ServicioInteresFijo interesFijo = new ServicioInteresFijo("2", new Double(7000), Moneda.ARS, LocalDate.parse("2020-12-31"),lista ,LocalDate.parse("2021-12-31"));
+        ServicioInteresFijo interesFijo = new ServicioInteresFijo("2", new Double(7000), Moneda.ARS, LocalDate.parse("2020-07-31") ,LocalDate.parse("2021-12-31"));
         ServicioInteresVariable interesVariable = new ServicioInteresVariable("2", new Double(1000), Moneda.ARS,
-                LocalDate.parse("2020-12-31"), lista ,LocalDate.parse("2021-12-31"), new Double(0.5));
+                LocalDate.parse("2022-08-31"), lista ,LocalDate.parse("2021-10-31"), new Double(0.5));
 
         interesVariable.agregarDependencia(interesFijo);
+
+
+        System.out.println(interesVariable.getProxVto());
 
         unicoVto.pagar();
         unicoVto.getTotal();
