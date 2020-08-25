@@ -20,11 +20,7 @@ public abstract class Servicio {
 
     public Servicio(String descripcion, Double monto, Moneda moneda, LocalDate vto) {
         contador++;
-        if (contador.toString().length() > 20) {
-            this.id = contador.toString().substring(0, 20);
-        } else {
-            this.id = contador.toString();
-        }
+        this.id = String.format( "%020d",contador);
         this.descripcion = descripcion;
         this.monto = monto;
         this.moneda = moneda;
